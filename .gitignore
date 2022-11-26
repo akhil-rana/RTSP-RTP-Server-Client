@@ -129,6 +129,8 @@ dmypy.json
 
 movie_1.Mjpeg
 movie_2.Mjpeg
-
+cache-*
 # Pyre type checker
 .pyre/
+
+

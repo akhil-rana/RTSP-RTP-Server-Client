@@ -4,8 +4,8 @@ import traceback
 import threading
 import socket
 
-from VideoStream import VideoStream
-from RtpPacket import RtpPacket
+from videoStream.VideoStream import VideoStream
+from rtpPacket.RtpPacket import RtpPacket
 
 
 class ServerWorker:

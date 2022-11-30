@@ -4,7 +4,7 @@ import sys
 import threading
 import socket
 from tkinter import messagebox
-from RtpPacket import RtpPacket
+from rtpPacket.RtpPacket import RtpPacket
 from PIL import Image, ImageTk
 from tkinter import *
 import tkinter.messagebox
@@ -45,7 +45,7 @@ class Client:
         self.serverAddr = serveraddr
         self.serverPort = int(serverport)
         self.rtpPort = int(rtpport)
-        self.fileName = filename
+        self.fileName = 'sampleFiles/' + filename
         self.rtspSeq = 0
         self.sessionId = 0
         self.requestSent = -1

@@ -1,20 +1,23 @@
 import sys
 import socket
+import os
 
-from server.ServerWorker import ServerWorker
+sys.path.append(os.path.abspath(os.getcwd() + "/src"))
+
+from ServerWorker import ServerWorker
 
 
 class Server:
     def main(self):
         SERVER_PORT = int(sys.argv[1]) | 5000
         rtspSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        rtspSocket.bind(('', SERVER_PORT))
+        rtspSocket.bind(("", SERVER_PORT))
         rtspSocket.listen(5)
 
         # Receive client info (address,port) through RTSP/TCP session
         while True:
             clientInfo = {}
-            clientInfo['rtspSocket'] = rtspSocket.accept()
+            clientInfo["rtspSocket"] = rtspSocket.accept()
             ServerWorker(clientInfo).run()
 
 

@@ -1,6 +1,10 @@
-import sys
+import sys, os
 from tkinter import Tk
-from client.Client import Client
+
+sys.path.append(os.path.abspath(os.getcwd() + "/src"))
+
+from Client import Client
+
 
 if __name__ == "__main__":
 

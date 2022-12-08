@@ -1,6 +1,6 @@
 import sys, socket
 
-from ServerController import ServerConroller
+from ServerController import ServerController
 
 class ConnectionHandler:	
 	
@@ -16,7 +16,7 @@ class ConnectionHandler:
 		while True:
 			clientInfo = {}
 			clientInfo['rtspSocket'] = rtspSocket.accept()
-			ServerConroller(clientInfo).run()		
+			ServerController(clientInfo).run()		
 
 if __name__ == "__main__":
 	(ConnectionHandler()).main()

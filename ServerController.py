@@ -61,7 +61,6 @@ class ServerController:
 				
 				self.clientInfo['rtpPort'] = request[2].split(' ')[3]
 		
-		# Process PLAY request 		
 		elif requestType == self.PLAY:
 			if self.state == self.READY:
 				print("processing PLAY\n")

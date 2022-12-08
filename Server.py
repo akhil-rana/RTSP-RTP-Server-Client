@@ -1,8 +1,8 @@
 import sys, socket
 
-from ServerWorker import ServerWorker
+from ServerController import ServerConroller
 
-class Server:	
+class ConnectionHandler:	
 	
 	def main(self):
 		try:
@@ -13,13 +13,12 @@ class Server:
 		rtspSocket.bind(('', SERVER_PORT))
 		rtspSocket.listen(5)        
 
-		# Receive client info (address,port) through RTSP/TCP session
 		while True:
 			clientInfo = {}
 			clientInfo['rtspSocket'] = rtspSocket.accept()
-			ServerWorker(clientInfo).run()		
+			ServerConroller(clientInfo).run()		
 
 if __name__ == "__main__":
-	(Server()).main()
+	(ConnectionHandler()).main()
 
 

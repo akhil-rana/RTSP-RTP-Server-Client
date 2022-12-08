@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath(os.getcwd() + "/src"))
 
-from ServerWorker import ServerWorker
+from ServerController import ServerWorker
 
 
 class Server:

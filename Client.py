@@ -1,3 +1,5 @@
+import sys, io, base64
+from tkinter import Tk
 from tkinter import *
 import tkinter.messagebox
 tkinter.messagebox
@@ -5,12 +7,12 @@ from tkinter import messagebox
 tkinter.messagebox
 from PIL import Image, ImageTk
 import socket, threading, sys, traceback, os
-
 from RtpPacket import RtpPacket
+
 
 CACHE_FILE_NAME = "cache-"
 CACHE_FILE_EXT = ".jpg"
-
+images = []
 class Client:
 
     SETUP_STR = 'SETUP'
@@ -114,7 +116,7 @@ class Client:
                 data = self.rtpSocket.recv(20480)
                 if data:
                     rtpPacket = RtpPacket()
-                    rtpPacket.decode(data)
+                    payload = rtpPacket.decode(data)
                     
                     currFrameNbr = rtpPacket.seqNum()
                     print ("CURRENT SEQUENCE NUM: " + str(currFrameNbr))
@@ -124,10 +126,11 @@ class Client:
                                         
                     if currFrameNbr > self.frameNbr: # Discard the late packet
                         self.frameNbr = currFrameNbr
-                        self.updateMovie(self.writeFrame(rtpPacket.getPayload()))
+                        # self.writeFrame(payload)
+                        self.updateMovie(payload)
             except:
                 # Stop listening upon requesting PAUSE or TEARDOWN
-                if self.playEvent.isSet(): 
+                if self.playEvent.is_set(): 
                     break
                 
                 # Upon receiving ACK for TEARDOWN request,
@@ -148,9 +151,13 @@ class Client:
     
     def updateMovie(self, imageFile):
         """Update the image file as video frame in the GUI."""
-        photo = ImageTk.PhotoImage(Image.open(imageFile))
-        self.label.configure(image = photo, height=288) 
+        image= base64.encodebytes(imageFile)
+        photo = ImageTk.PhotoImage(data = image)
+        images.append(photo)
+        print('trrrrr')
+        self.label.configure(image=photo, height=288)
         self.label.image = photo
+        # self.label.pack()
         
     def connectToServer(self):
         """Connect to the Server. Start a new RTSP/TCP session."""
@@ -320,3 +327,23 @@ class Client:
             self.exitClient()
         else: # When the user presses cancel, resume playing.
             self.playMovie()
+
+
+if __name__ == "__main__":
+	serverAddr = "127.0.0.1"
+	serverPort = "5000"
+	rtpPort = "3000"
+	fileName = "video.mjpeg"
+
+	if len(sys.argv) == 5:
+		serverAddr = sys.argv[1]
+		serverPort = sys.argv[2]
+		rtpPort = sys.argv[3]
+		fileName = sys.argv[4]
+	root = Tk()
+	
+	# Create a new client
+	app = Client(root, serverAddr, serverPort, rtpPort, fileName)
+	app.master.title("RTPClient")	
+	root.mainloop()
+	

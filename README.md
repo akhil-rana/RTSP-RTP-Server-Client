@@ -1,3 +1,3 @@
 # ACN-Assignment---RTP
 
-RTP/RTSP server nd client implementation using python
+RTP/RTSP server and client implementation using python
